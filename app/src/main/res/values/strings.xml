@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">GitHubApp</string>
+    <string name="search_github_user">Search GitHub User</string>
+    <string name="find_user_and_add_to_favorite">Find user and add to favorite</string>
+    <string name="search_image_illustration">Search image illustration</string>
+    <string name="search">search</string>
+    <string name="favorite">Favorite</string>
+    <string name="change_theme">Change Theme</string>
+    <string name="button_to_add_favorite">Button to add Favorite</string>
+    <string name="username">Username: %s</string>
+    <string name="location">Location: %s</string>
+    <string name="company">Company: %s</string>
+    <string name="repositories">Repositories: %s</string>
+    <string name="followers_s">Followers: %s</string>
+    <string name="following_s">Following: %s</string>
+    <string name="followers">Followers</string>
+    <string name="following">Following</string>
+    <string name="illustration_when_followers_empty">Illustration When Followers empty</string>
+    <string name="user_don_t_have_any_followers">User don\'t have any followers</string>
+    <string name="illustration_when_following_empty">Illustration when following empty</string>
+    <string name="user_doesn_t_follow_anyone">User doesn\'t follow anyone</string>
+    <string name="this_user_doesn_t_have_any_favorite_user">You doesn\'t have any favorite user</string>
+    <string name="illustration_when_favorite_emtpy">Illustration when favorite emtpy</string>
+</resources>
