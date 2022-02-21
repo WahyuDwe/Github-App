@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -35,6 +38,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             rvUser.setHasFixedSize(true)
             rvUser.adapter = adapter
         }
+        isDarkMode()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -44,7 +48,6 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         val searchView = menu.findItem(R.id.search_menu).actionView as SearchView
         searchView.setOnQueryTextListener(this)
         searchView.maxWidth = Int.MAX_VALUE
-        searchView.isSubmitButtonEnabled = true
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -115,6 +118,16 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             ivSearch.isVisible = state
             tvSearch.isVisible = state
             tvExtended.isVisible = state
+        }
+    }
+
+    private fun isDarkMode() {
+        viewModel.getThemeSettings().observe(this) {
+            if (it) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
         }
     }
 }

@@ -1,14 +1,21 @@
 package com.wahyudwi.githubapp.ui.detail
 
 import android.app.Application
+import android.content.Context
 import android.util.Log
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import com.wahyudwi.githubapp.data.local.entity.FavoriteEntity
 import com.wahyudwi.githubapp.data.local.room.FavoriteDao
 import com.wahyudwi.githubapp.data.local.room.FavoriteDatabase
 import com.wahyudwi.githubapp.data.model.DetailUserResponse
 import com.wahyudwi.githubapp.network.ApiConfig
+import com.wahyudwi.githubapp.utils.ThemePreference
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,6 +25,8 @@ import retrofit2.Response
 
 class DetailViewModel(application: Application) : ViewModel() {
     val detailUser = MutableLiveData<DetailUserResponse>()
+    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+    private val pref: ThemePreference = ThemePreference.getInstance(application.dataStore)
 
     private var favoriteDb: FavoriteDatabase? = FavoriteDatabase.getInstance(application)
     private var favoriteDao: FavoriteDao? = favoriteDb?.favoriteDao()
@@ -69,4 +78,6 @@ class DetailViewModel(application: Application) : ViewModel() {
             favoriteDao?.deleteFavorite(id)
         }
     }
+
+    fun getThemeSettings(): LiveData<Boolean> = pref.getThemeSetting().asLiveData()
 }

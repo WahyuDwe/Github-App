@@ -21,4 +21,7 @@
     <string name="user_doesn_t_follow_anyone">User doesn\'t follow anyone</string>
     <string name="this_user_doesn_t_have_any_favorite_user">You doesn\'t have any favorite user</string>
     <string name="illustration_when_favorite_emtpy">Illustration when favorite emtpy</string>
+    <string name="dark_theme">Dark Theme</string>
+    <string name="app">App</string>
+    <string name="logo_github_app">logo Github App</string>
 </resources>

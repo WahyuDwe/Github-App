@@ -53,6 +53,7 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$jetpackVersion"
     implementation "de.hdodenhof:circleimageview:$circleImageVersion"
     implementation "io.coil-kt:coil:$coilVersion"
+    implementation "androidx.core:core-splashscreen:$splashScreenVersion"
 
     // architecture
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$jetpackVersion"
@@ -72,4 +73,7 @@ dependencies {
     // room
     implementation "androidx.room:room-runtime:$roomRuntimeVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
+
+    // datastore
+    implementation "androidx.datastore:datastore-preferences:$dataStoreVersion"
 }

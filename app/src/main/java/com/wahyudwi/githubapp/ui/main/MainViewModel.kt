@@ -1,19 +1,27 @@
 package com.wahyudwi.githubapp.ui.main
 
 import android.app.Application
+import android.content.Context
 import android.util.Log
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import com.wahyudwi.githubapp.data.model.SearchUser
 import com.wahyudwi.githubapp.data.model.UserResponse
 import com.wahyudwi.githubapp.network.ApiConfig
+import com.wahyudwi.githubapp.utils.ThemePreference
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class MainViewModel(application: Application) : ViewModel() {
     val listUsers = MutableLiveData<ArrayList<SearchUser>>()
+    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+    private val pref: ThemePreference = ThemePreference.getInstance(application.dataStore)
 
     fun setSearchUser(query: String): LiveData<ArrayList<SearchUser>> {
         ApiConfig.getService()
@@ -43,4 +51,6 @@ class MainViewModel(application: Application) : ViewModel() {
             })
         return listUsers
     }
+
+    fun getThemeSettings(): LiveData<Boolean> = pref.getThemeSetting().asLiveData()
 }

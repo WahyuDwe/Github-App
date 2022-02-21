@@ -47,6 +47,7 @@ class DetailActivity : AppCompatActivity() {
             populateContentDetail(detailMovie)
             showTitleCollapse("$username Profile")
         }
+        isDarkModeTabLayout()
 
         CoroutineScope(Dispatchers.IO).launch {
             val count = viewModel.checkUser(id)
@@ -143,10 +144,42 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
+    private fun isDarkModeTabLayout() {
+        viewModel.getThemeSettings().observe(this) {
+            binding.apply {
+                if (it) {
+                    tabLayout.setSelectedTabIndicatorColor(
+                        ContextCompat.getColor(
+                            this@DetailActivity,
+                            R.color.teal_200
+                        )
+                    )
+
+                    tabLayout.setTabTextColors(
+                        ContextCompat.getColor(this@DetailActivity, R.color.unselected),
+                        ContextCompat.getColor(this@DetailActivity, R.color.teal_200)
+                    )
+
+                } else {
+                    tabLayout.setSelectedTabIndicatorColor(
+                        ContextCompat.getColor(
+                            this@DetailActivity,
+                            R.color.black_500
+                        )
+                    )
+
+                    tabLayout.setTabTextColors(
+                        ContextCompat.getColor(this@DetailActivity, R.color.unselected),
+                        ContextCompat.getColor(this@DetailActivity, R.color.black_500)
+                    )
+                }
+            }
+        }
+    }
+
     companion object {
         const val EXTRA_ID = "extra_id"
         const val EXTRA_USERNAME = "extra_username"
         const val EXTRA_AVATAR = "extra_avatar"
     }
-
 }

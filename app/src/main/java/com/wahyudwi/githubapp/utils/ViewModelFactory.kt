@@ -8,6 +8,7 @@ import com.wahyudwi.githubapp.ui.favorite.FavoriteViewModel
 import com.wahyudwi.githubapp.ui.followers.FollowersViewModel
 import com.wahyudwi.githubapp.ui.following.FollowingViewModel
 import com.wahyudwi.githubapp.ui.main.MainViewModel
+import com.wahyudwi.githubapp.ui.settings.SettingsViewModel
 
 class ViewModelFactory constructor(private val application: Application) :
     ViewModelProvider.NewInstanceFactory() {
@@ -24,6 +25,8 @@ class ViewModelFactory constructor(private val application: Application) :
             modelClass.isAssignableFrom(FollowersViewModel::class.java) -> FollowersViewModel() as T
 
             modelClass.isAssignableFrom(FollowingViewModel::class.java) -> FollowingViewModel() as T
+
+            modelClass.isAssignableFrom(SettingsViewModel::class.java) -> SettingsViewModel(application) as T
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
         }

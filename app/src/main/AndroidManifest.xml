@@ -12,6 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GitHubApp">
         <activity
+            android:name=".ui.main.MainActivity"
+            android:exported="false"
+            android:launchMode="singleTop"/>
+        <activity
             android:name=".ui.settings.SettingActivity"
             android:exported="false" />
         <activity
@@ -21,8 +25,9 @@
             android:name=".ui.detail.DetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.main.MainActivity"
-            android:exported="true">
+            android:name=".ui.splashscreen.SplashScreenActivity"
+            android:exported="true"
+            android:theme="@style/Theme.GitHubApp.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
