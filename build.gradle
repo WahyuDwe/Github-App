@@ -29,7 +29,6 @@ ext {
     roomRuntimeVersion = '2.2.5'
     roomVersion = '2.2.3'
     dataStoreVersion = '1.0.0'
-    splashScreenVersion = '1.0.0-beta01'
 }
 
 task clean(type: Delete) {
