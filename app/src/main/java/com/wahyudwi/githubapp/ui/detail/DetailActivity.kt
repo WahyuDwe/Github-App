@@ -43,24 +43,21 @@ class DetailActivity : AppCompatActivity() {
         val avatarUrl = intent.getStringExtra(EXTRA_AVATAR)
         username = intent.getStringExtra(EXTRA_USERNAME) as String
 
-        viewModel.setUserDetail(username)
-        viewModel.detailUser.observe(this) { detailMovie ->
+        viewModel.getDetailUser(username).observe(this) { detailMovie ->
             populateContentDetail(detailMovie)
             showTitleCollapse("$username Profile")
         }
         isDarkModeTabLayout()
 
         CoroutineScope(Dispatchers.IO).launch {
-            val count = viewModel.checkUser(id)
+            val count = viewModel.checkExistUser(id)
             withContext(Dispatchers.Main) {
-                if (count != null) {
-                    isChecked = if (count > 0) {
-                        isFavorited(true)
-                        true
-                    } else {
-                        isFavorited(false)
-                        false
-                    }
+                isChecked = if (count > 0) {
+                    isFavorited(true)
+                    true
+                } else {
+                    isFavorited(false)
+                    false
                 }
             }
         }

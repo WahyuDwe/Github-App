@@ -9,6 +9,7 @@ import com.wahyudwi.githubapp.ui.followers.FollowersViewModel
 import com.wahyudwi.githubapp.ui.following.FollowingViewModel
 import com.wahyudwi.githubapp.ui.main.MainViewModel
 import com.wahyudwi.githubapp.ui.settings.SettingsViewModel
+import com.wahyudwi.githubapp.ui.splashscreen.SplashViewModel
 
 class ViewModelFactory constructor(private val application: Application) :
     ViewModelProvider.NewInstanceFactory() {
@@ -22,11 +23,13 @@ class ViewModelFactory constructor(private val application: Application) :
 
             modelClass.isAssignableFrom(FavoriteViewModel::class.java) -> FavoriteViewModel(application) as T
 
-            modelClass.isAssignableFrom(FollowersViewModel::class.java) -> FollowersViewModel() as T
+            modelClass.isAssignableFrom(FollowersViewModel::class.java) -> FollowersViewModel(application) as T
 
-            modelClass.isAssignableFrom(FollowingViewModel::class.java) -> FollowingViewModel() as T
+            modelClass.isAssignableFrom(FollowingViewModel::class.java) -> FollowingViewModel(application) as T
 
             modelClass.isAssignableFrom(SettingsViewModel::class.java) -> SettingsViewModel(application) as T
+
+            modelClass.isAssignableFrom(SplashViewModel::class.java) -> SplashViewModel(application) as T
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
         }

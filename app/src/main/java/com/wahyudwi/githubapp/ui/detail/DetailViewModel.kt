@@ -1,83 +1,21 @@
 package com.wahyudwi.githubapp.ui.detail
 
 import android.app.Application
-import android.content.Context
-import android.util.Log
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import com.wahyudwi.githubapp.data.local.entity.FavoriteEntity
-import com.wahyudwi.githubapp.data.local.room.FavoriteDao
-import com.wahyudwi.githubapp.data.local.room.FavoriteDatabase
-import com.wahyudwi.githubapp.data.model.DetailUserResponse
-import com.wahyudwi.githubapp.network.ApiConfig
-import com.wahyudwi.githubapp.utils.ThemePreference
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.wahyudwi.githubapp.data.UserRepository
 
 class DetailViewModel(application: Application) : ViewModel() {
-    val detailUser = MutableLiveData<DetailUserResponse>()
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
-    private val pref: ThemePreference = ThemePreference.getInstance(application.dataStore)
+    private val repository = UserRepository(application)
 
-    private var favoriteDb: FavoriteDatabase? = FavoriteDatabase.getInstance(application)
-    private var favoriteDao: FavoriteDao? = favoriteDb?.favoriteDao()
+    fun getDetailUser(username: String) = repository.detailUser(username)
 
-    fun setUserDetail(username: String) {
-        ApiConfig.getService()
-            .getDetailUser(username)
-            .enqueue(object : Callback<DetailUserResponse> {
-                override fun onResponse(
-                    call: Call<DetailUserResponse>,
-                    response: Response<DetailUserResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        detailUser.postValue(response.body())
-                    }
+    fun addToFavorite(id: Int, username: String, avatarUrl: String) =
+        repository.addFavorite(id, username, avatarUrl)
 
-                    val message = when (response.code()) {
-                        401 -> "${response.code()}: Forbidden"
-                        403 -> "${response.code()}: Bad Request"
-                        404 -> "${response.code()}: Not Found"
-                        else -> "${response.code()}: ${response.body()}"
-                    }
+    fun checkExistUser(id: Int) = repository.checkUser(id)
 
-                    Log.d("onResponseDetail", message)
-                }
+    fun removeFromFavorite(id: Int) = repository.removeFavorite(id)
 
-                override fun onFailure(call: Call<DetailUserResponse>, t: Throwable) {
-                    Log.d("onFailure", t.message!!)
-                }
-
-            })
-    }
-
-    fun addToFavorite(id: Int, username: String, avatarUrl: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val user = FavoriteEntity(
-                id,
-                username,
-                avatarUrl
-            )
-            favoriteDao?.addToFavorite(user)
-        }
-    }
-
-    fun checkUser(id: Int) = favoriteDao?.checkUser(id)
-
-    fun removeFromFavorite(id: Int) {
-        CoroutineScope(Dispatchers.IO).launch {
-            favoriteDao?.deleteFavorite(id)
-        }
-    }
-
-    fun getThemeSettings(): LiveData<Boolean> = pref.getThemeSetting().asLiveData()
+    fun getThemeSettings() = repository.getTheme().asLiveData()
 }

@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wahyudwi.githubapp.databinding.FragmentFollowersBinding
 import com.wahyudwi.githubapp.ui.detail.DetailActivity
-import com.wahyudwi.githubapp.ui.main.MainAdapter
+import com.wahyudwi.githubapp.utils.Adapter
 import com.wahyudwi.githubapp.utils.ViewModelFactory
 
 class FollowersFragment : Fragment() {
@@ -36,7 +36,7 @@ class FollowersFragment : Fragment() {
         detailActivity = activity as DetailActivity
         username = detailActivity.getData()
 
-        val adapter = MainAdapter()
+        val adapter = Adapter()
         binding?.rvUserFollowers?.apply {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
@@ -45,7 +45,7 @@ class FollowersFragment : Fragment() {
 
         isLoading(true)
         viewModel = obtainViewModel(context as AppCompatActivity)
-        viewModel.setListFollowers(username).observe(viewLifecycleOwner) { list ->
+        viewModel.getListFollowers(username).observe(viewLifecycleOwner) { list ->
             if (list != null && list.isNotEmpty()) {
                 isLoading(false)
                 isShowIllustration(false)
