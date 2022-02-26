@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">GitHubApp</string>
     <string name="search_github_user">Search GitHub User</string>
-    <string name="find_user_and_add_to_favorite">Find user and add to favorite</string>
+    <string name="find_user_and_add_to_favorite">Find and add to favorite</string>
     <string name="search_image_illustration">Search image illustration</string>
     <string name="search">search</string>
     <string name="favorite">Favorite</string>
@@ -24,4 +24,5 @@
     <string name="dark_theme">Dark Theme</string>
     <string name="app">App</string>
     <string name="logo_github_app">logo Github App</string>
+    <string name="get_followers">Get Followers</string>
 </resources>

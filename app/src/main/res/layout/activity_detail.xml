@@ -125,6 +125,7 @@
                 android:background="@null"
                 app:layout_collapseMode="pin"
                 app:navigationIcon="@drawable/ic_back" />
+
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 

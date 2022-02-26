@@ -1,6 +1,7 @@
 package com.wahyudwi.githubapp.ui.detail
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
@@ -68,11 +69,14 @@ class DetailActivity : AppCompatActivity() {
             isChecked = !isChecked
             if (isChecked) {
                 viewModel.addToFavorite(id, username, avatarUrl!!)
+                Toast.makeText(this, "Add To Favorite", Toast.LENGTH_SHORT).show()
             } else {
                 viewModel.removeFromFavorite(id)
+                Toast.makeText(this, "Remove From Favorite", Toast.LENGTH_SHORT).show()
             }
             isFavorited(isChecked)
         }
+
     }
 
     fun getData(): String = username

@@ -55,6 +55,7 @@ class FollowersFragment : Fragment() {
                 isShowIllustration(true)
             }
         }
+
     }
 
     override fun onDestroyView() {
@@ -68,12 +69,16 @@ class FollowersFragment : Fragment() {
     }
 
     private fun isLoading(state: Boolean) {
-        binding?.progressbar?.isVisible = state
-        binding?.rvUserFollowers?.isGone = state
+        binding?.apply {
+            progressbar.isVisible = state
+            rvUserFollowers.isGone = state
+        }
     }
 
     private fun isShowIllustration(state: Boolean) {
-        binding?.tvNoneFollowers?.isVisible = state
-        binding?.ivNoneFollowers?.isVisible = state
+        binding?.apply {
+            tvNoneFollowers.isVisible = state
+            ivNoneFollowers.isVisible = state
+        }
     }
 }
