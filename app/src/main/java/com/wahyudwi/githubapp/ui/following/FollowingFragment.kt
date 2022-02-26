@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wahyudwi.githubapp.databinding.FragmentFollowingBinding
 import com.wahyudwi.githubapp.ui.detail.DetailActivity
-import com.wahyudwi.githubapp.ui.main.MainAdapter
+import com.wahyudwi.githubapp.utils.Adapter
 import com.wahyudwi.githubapp.utils.ViewModelFactory
 
 class FollowingFragment : Fragment() {
@@ -38,14 +38,14 @@ class FollowingFragment : Fragment() {
         username = detailActivity.getData()
 
         isLoading(true)
-        val adapter = MainAdapter()
+        val adapter = Adapter()
         binding?.rvUserFollowing?.apply {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
             this.adapter = adapter
         }
         viewModel = obtainViewModel(context as AppCompatActivity)
-        viewModel.setListFollowing(username).observe(viewLifecycleOwner) { list ->
+        viewModel.getListFollowing(username).observe(viewLifecycleOwner) { list ->
             if (list != null && list.isNotEmpty()) {
                 isLoading(false)
                 isShowIllustration(false)

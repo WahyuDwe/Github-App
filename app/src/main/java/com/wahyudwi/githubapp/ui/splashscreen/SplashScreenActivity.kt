@@ -15,7 +15,7 @@ import com.wahyudwi.githubapp.utils.ViewModelFactory
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity() {
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: SplashViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,13 +30,13 @@ class SplashScreenActivity : AppCompatActivity() {
         isDarkMode()
     }
 
-    private fun obtainViewModel(activity: AppCompatActivity): MainViewModel {
+    private fun obtainViewModel(activity: AppCompatActivity): SplashViewModel {
         val factory = ViewModelFactory.getInstance(activity.application)
-        return ViewModelProvider(activity, factory)[MainViewModel::class.java]
+        return ViewModelProvider(activity, factory)[SplashViewModel::class.java]
     }
 
     private fun isDarkMode() {
-        viewModel.getThemeSettings().observe(this) {
+        viewModel.getThemeSetting().observe(this) {
             if (it) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             } else {

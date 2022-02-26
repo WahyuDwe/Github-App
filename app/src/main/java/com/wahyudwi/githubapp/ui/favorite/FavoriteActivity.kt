@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.wahyudwi.githubapp.data.local.entity.FavoriteEntity
 import com.wahyudwi.githubapp.data.model.SearchUser
 import com.wahyudwi.githubapp.databinding.ActivityFavoriteBinding
-import com.wahyudwi.githubapp.ui.main.MainAdapter
+import com.wahyudwi.githubapp.utils.Adapter
 import com.wahyudwi.githubapp.utils.ViewModelFactory
 
 class FavoriteActivity : AppCompatActivity() {
@@ -23,7 +23,7 @@ class FavoriteActivity : AppCompatActivity() {
         title = "Favorite"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val adapter = MainAdapter()
+        val adapter = Adapter()
         binding.rvUserFavorite.apply {
             setHasFixedSize(true)
             this.adapter = adapter

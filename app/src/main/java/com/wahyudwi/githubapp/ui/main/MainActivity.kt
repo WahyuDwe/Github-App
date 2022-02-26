@@ -5,9 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -17,13 +15,14 @@ import com.wahyudwi.githubapp.data.model.SearchUser
 import com.wahyudwi.githubapp.databinding.ActivityMainBinding
 import com.wahyudwi.githubapp.ui.favorite.FavoriteActivity
 import com.wahyudwi.githubapp.ui.settings.SettingActivity
+import com.wahyudwi.githubapp.utils.Adapter
 import com.wahyudwi.githubapp.utils.ViewModelFactory
 
 class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private val listUser: ArrayList<SearchUser> = arrayListOf()
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
-    private lateinit var adapter: MainAdapter
+    private lateinit var adapter: Adapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,13 +30,12 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         setContentView(binding.root)
 
         viewModel = obtainViewModel(this as AppCompatActivity)
-        adapter = MainAdapter()
+        adapter = Adapter()
         binding.apply {
             rvUser.layoutManager = LinearLayoutManager(this@MainActivity)
             rvUser.setHasFixedSize(true)
             rvUser.adapter = adapter
         }
-        isDarkMode()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -51,7 +49,6 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-        isLoading(true)
         if (query != null) {
             searchData(query)
         }
@@ -59,7 +56,6 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     override fun onQueryTextChange(query: String?): Boolean {
-        isLoading(true)
         if (query != null) {
             searchData(query)
         }
@@ -67,6 +63,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         if (query.isNullOrBlank()) {
             listUser.clear()
             adapter.setData(listUser)
+            isLoading(false)
             isImageShow(true)
         }
         return false
@@ -96,11 +93,12 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun searchData(query: String) {
+        isLoading(true)
         isImageShow(false)
-        viewModel.setSearchUser(query).observe(this) { list ->
+        viewModel.getSearchUser(query).observe(this) { list ->
             list.let {
-                adapter.setData(it)
                 isLoading(false)
+                adapter.setData(it)
             }
         }
     }
@@ -117,16 +115,6 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             ivSearch.isVisible = state
             tvSearch.isVisible = state
             tvExtended.isVisible = state
-        }
-    }
-
-    private fun isDarkMode() {
-        viewModel.getThemeSettings().observe(this) {
-            if (it) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
         }
     }
 }

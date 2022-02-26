@@ -1,4 +1,4 @@
-package com.wahyudwi.githubapp.ui.main
+package com.wahyudwi.githubapp.utils
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -10,9 +10,8 @@ import com.wahyudwi.githubapp.R
 import com.wahyudwi.githubapp.data.model.SearchUser
 import com.wahyudwi.githubapp.databinding.ItemUserBinding
 import com.wahyudwi.githubapp.ui.detail.DetailActivity
-import com.wahyudwi.githubapp.utils.DiffUtils
 
-class MainAdapter : RecyclerView.Adapter<MainAdapter.UserViewHolder>() {
+class Adapter : RecyclerView.Adapter<Adapter.UserViewHolder>() {
     private var oldListUser = emptyList<SearchUser>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {

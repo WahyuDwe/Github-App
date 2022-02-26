@@ -17,7 +17,7 @@ class SettingActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         viewModel = obtainViewModel(this as AppCompatActivity)
-        title = "Setting"
+        title = "Settings"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         darkMode()
     }
