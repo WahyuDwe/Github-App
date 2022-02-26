@@ -51,7 +51,6 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-        isLoading(true)
         if (query != null) {
             searchData(query)
         }
@@ -59,7 +58,6 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     override fun onQueryTextChange(query: String?): Boolean {
-        isLoading(true)
         if (query != null) {
             searchData(query)
         }
@@ -67,6 +65,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         if (query.isNullOrBlank()) {
             listUser.clear()
             adapter.setData(listUser)
+            isLoading(false)
             isImageShow(true)
         }
         return false
@@ -96,11 +95,12 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun searchData(query: String) {
+        isLoading(true)
         isImageShow(false)
-        viewModel.setSearchUser(query).observe(this) { list ->
+        viewModel.searchUser(query).observe(this) { list ->
             list.let {
-                adapter.setData(it)
                 isLoading(false)
+                adapter.setData(it)
             }
         }
     }
