@@ -139,8 +139,6 @@ class MainActivityTest {
     fun testDarkMode() {
         onView(withId(R.id.setting_menu)).perform(click())
         onView(withId(R.id.switch_theme)).perform(click())
-        onView(withText(R.string.light_mode)).check(matches(isDisplayed()))
-        onView(withId(R.id.switch_theme)).perform(click())
-        onView(withText(R.string.dark_mode)).check(matches(isDisplayed()))
+        onView(withId(R.id.switch_theme)).check(matches(isChecked()))
     }
 }
