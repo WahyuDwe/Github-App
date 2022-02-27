@@ -30,6 +30,7 @@ ext {
     roomVersion = '2.2.3'
     dataStoreVersion = '1.0.0'
     androidTestVersion = '1.4.0'
+    idleResourceVersion = '3.2.0'
 }
 
 task clean(type: Delete) {
