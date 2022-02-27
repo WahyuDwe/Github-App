@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 }
             }
 
-            R.id.option_menu -> {
+            R.id.setting_menu -> {
                 Intent(this, SettingActivity::class.java).also {
                     startActivity(it)
                 }

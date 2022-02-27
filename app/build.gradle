@@ -14,7 +14,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        buildConfigField("String", "API_KEY", '"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"')
+        buildConfigField("String", "API_KEY", '"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"')
         buildConfigField("String", "BASE_URL", '"https://api.github.com/"')
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -67,7 +67,11 @@ dependencies {
     // testing
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$junitExtVersion"
+    androidTestImplementation "androidx.test:rules:$androidTestVersion"
+    androidTestImplementation "androidx.test:runner:$androidTestVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
+    implementation "androidx.test.espresso:espresso-idling-resource:$idleResourceVersion"
 
     // room
     implementation "androidx.room:room-runtime:$roomRuntimeVersion"

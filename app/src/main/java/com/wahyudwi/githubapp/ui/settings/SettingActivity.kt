@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
+import com.wahyudwi.githubapp.R
 import com.wahyudwi.githubapp.databinding.ActivitySettingBinding
 import com.wahyudwi.githubapp.utils.ViewModelFactory
 
@@ -37,9 +38,11 @@ class SettingActivity : AppCompatActivity() {
             viewModel.getThemeSettings().observe(this@SettingActivity) {
                 if(it) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    binding.tvChangeTheme.text = getString(R.string.light_mode)
                     this.isChecked = true
                 } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    binding.tvChangeTheme.text = getString(R.string.dark_mode)
                     this.isChecked = false
                 }
 

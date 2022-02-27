@@ -16,6 +16,7 @@ import com.wahyudwi.githubapp.data.model.SearchUser
 import com.wahyudwi.githubapp.data.model.UserResponse
 import com.wahyudwi.githubapp.network.ApiConfig
 import com.wahyudwi.githubapp.network.ApiService
+import com.wahyudwi.githubapp.utils.EspressoIdlingResource
 import com.wahyudwi.githubapp.utils.ThemePreference
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -38,6 +39,7 @@ class UserRepository(application: Application) {
     }
 
     fun searchUser(query: String): LiveData<ArrayList<SearchUser>> {
+        EspressoIdlingResource.increment()
         val listUser = MutableLiveData<ArrayList<SearchUser>>()
 
         retrofit.getSearchUser(query).enqueue(object : Callback<UserResponse> {
@@ -53,10 +55,12 @@ class UserRepository(application: Application) {
                     else -> "${response.code()} : ${response.body()}"
                 }
                 Log.d("onResponseSearch", message)
+                EspressoIdlingResource.decrement()
             }
 
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {
                 Log.d("onFailureSearch", t.message!!)
+                EspressoIdlingResource.decrement()
             }
 
         })
@@ -65,6 +69,7 @@ class UserRepository(application: Application) {
     }
 
     fun detailUser(username: String): LiveData<DetailUserResponse> {
+        EspressoIdlingResource.increment()
         val detail = MutableLiveData<DetailUserResponse>()
 
         retrofit.getDetailUser(username).enqueue(object : Callback<DetailUserResponse> {
@@ -84,10 +89,12 @@ class UserRepository(application: Application) {
                 }
 
                 Log.d("onResponseDetail", message)
+                EspressoIdlingResource.decrement()
             }
 
             override fun onFailure(call: Call<DetailUserResponse>, t: Throwable) {
                 Log.d("onFailureDetail", t.message!!)
+                EspressoIdlingResource.decrement()
             }
 
         })
@@ -96,6 +103,7 @@ class UserRepository(application: Application) {
     }
 
     fun listFollowers(username: String): LiveData<ArrayList<SearchUser>> {
+        EspressoIdlingResource.increment()
         val listUser = MutableLiveData<ArrayList<SearchUser>>()
 
         retrofit.getFollowers(username).enqueue(object : Callback<ArrayList<SearchUser>> {
@@ -115,10 +123,12 @@ class UserRepository(application: Application) {
                 }
 
                 Log.d("onResponseFollowers", message)
+                EspressoIdlingResource.decrement()
             }
 
             override fun onFailure(call: Call<ArrayList<SearchUser>>, t: Throwable) {
                 Log.d("onFailureFollowers", t.message!!)
+                EspressoIdlingResource.decrement()
             }
 
         })
@@ -127,6 +137,7 @@ class UserRepository(application: Application) {
     }
 
     fun listFollowing(username: String): LiveData<ArrayList<SearchUser>> {
+        EspressoIdlingResource.increment()
         val listUser = MutableLiveData<ArrayList<SearchUser>>()
 
         retrofit.getFollowing(username).enqueue(object : Callback<ArrayList<SearchUser>> {
@@ -146,10 +157,12 @@ class UserRepository(application: Application) {
                 }
 
                 Log.d("onResponseFollowing", message)
+                EspressoIdlingResource.decrement()
             }
 
             override fun onFailure(call: Call<ArrayList<SearchUser>>, t: Throwable) {
                 Log.d("onFailureFollowing", t.message!!)
+                EspressoIdlingResource.decrement()
             }
 
         })
