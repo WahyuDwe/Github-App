@@ -9,3 +9,20 @@ BFAA Final Submission Dicoding
   <img src="https://github.com/WahyuDwe/Github-App/blob/main/art/following.png" width="160">
   <img src="https://github.com/WahyuDwe/Github-App/blob/main/art/favorite.png" width="160">
 </p>
+
+## Features
+* Search User
+* Dark Mode
+* Add To Favorite
+
+## Technology
+* Kotlin
+* MVVM
+* Data Store
+* Coil
+* Kotlin Coroutine
+* Room
+* Retrofit2
+
+#### Known issues i have
+* Icon close(x) when search must be click two times to go back normal toolbar
