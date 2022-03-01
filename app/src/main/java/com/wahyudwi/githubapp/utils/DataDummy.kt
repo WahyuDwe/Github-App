@@ -45,6 +45,14 @@ object DataDummy {
                 "dummy4.jpg"
             )
         )
+
+        user.add(
+            FavoriteEntity(
+                5,
+                "user5",
+                "dummy5.jpg"
+            )
+        )
         return user
     }
 }
