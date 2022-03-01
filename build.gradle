@@ -26,11 +26,12 @@ ext {
     okhttp3Version = '4.9.0'
     circleImageVersion = '3.1.0'
     coilVersion = '1.4.0'
-    roomRuntimeVersion = '2.4.1'
-    roomVersion = '2.2.3'
+    roomRuntimeVersion = '2.4.2'
+    roomVersion = '2.4.0-rc01'
     dataStoreVersion = '1.0.0'
     androidTestVersion = '1.4.0'
-    idleResourceVersion = '3.2.0'
+    idleResourceVersion = '3.4.0'
+    coroutineVersion = '1.5.2'
 }
 
 task clean(type: Delete) {

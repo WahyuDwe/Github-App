@@ -13,7 +13,7 @@ class DetailViewModel(application: Application) : ViewModel() {
     fun addToFavorite(id: Int, username: String, avatarUrl: String) =
         repository.addFavorite(id, username, avatarUrl)
 
-    fun checkExistUser(id: Int) = repository.checkUser(id)
+    suspend fun checkExistUser(id: Int) = repository.checkUser(id)
 
     fun removeFromFavorite(id: Int) = repository.removeFavorite(id)
 

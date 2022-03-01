@@ -44,6 +44,8 @@ dependencies {
 
     // kotlin
     implementation "androidx.core:core-ktx:$coreVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
 
     // ui
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
@@ -62,7 +64,6 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3Version"
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     // testing
     testImplementation "junit:junit:$junitVersion"
@@ -75,8 +76,11 @@ dependencies {
 
     // room
     implementation "androidx.room:room-runtime:$roomRuntimeVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
 
     // datastore
     implementation "androidx.datastore:datastore-preferences:$dataStoreVersion"
+
+
 }

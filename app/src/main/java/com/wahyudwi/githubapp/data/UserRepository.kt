@@ -170,7 +170,7 @@ class UserRepository(application: Application) {
         return listUser
     }
 
-    fun checkUser(id: Int) = favoriteDao.checkUser(id)
+    suspend fun checkUser(id: Int) = favoriteDao.checkUser(id)
 
     fun addFavorite(id: Int, username: String, avatarUrl: String) {
         CoroutineScope(Dispatchers.IO).launch {

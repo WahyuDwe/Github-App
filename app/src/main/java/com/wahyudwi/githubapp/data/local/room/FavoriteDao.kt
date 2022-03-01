@@ -13,11 +13,11 @@ interface FavoriteDao {
     fun getFavoritedUser(): LiveData<List<FavoriteEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addToFavorite(favoriteEntity: FavoriteEntity)
+    suspend fun addToFavorite(favoriteEntity: FavoriteEntity)
 
     @Query("SELECT count(*) FROM favoriteentities WHERE favoriteentities.id_user = :id")
-    fun checkUser(id: Int): Int
+    suspend fun checkUser(id: Int): Int
 
     @Query("DELETE FROM favoriteentities WHERE favoriteentities.id_user = :id")
-    fun deleteFavorite(id: Int): Int
+    suspend fun deleteFavorite(id: Int): Int
 }
