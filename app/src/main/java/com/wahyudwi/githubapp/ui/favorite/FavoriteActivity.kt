@@ -12,6 +12,7 @@ import com.wahyudwi.githubapp.utils.Adapter
 import com.wahyudwi.githubapp.utils.ViewModelFactory
 
 class FavoriteActivity : AppCompatActivity() {
+    private lateinit var adapter: Adapter
     private lateinit var binding: ActivityFavoriteBinding
     private lateinit var viewModel: FavoriteViewModel
 
@@ -23,11 +24,11 @@ class FavoriteActivity : AppCompatActivity() {
         title = "Favorite"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val adapter = Adapter()
+        adapter = Adapter()
         binding.rvUserFavorite.apply {
-            setHasFixedSize(true)
-            this.adapter = adapter
             layoutManager = LinearLayoutManager(this@FavoriteActivity)
+            setHasFixedSize(true)
+            adapter = this@FavoriteActivity.adapter
         }
 
         viewModel = obtainViewModel(this as AppCompatActivity)

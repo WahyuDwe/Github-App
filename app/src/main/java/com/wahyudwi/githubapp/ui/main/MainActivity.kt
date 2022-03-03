@@ -31,10 +31,10 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
         viewModel = obtainViewModel(this as AppCompatActivity)
         adapter = Adapter()
-        binding.apply {
-            rvUser.layoutManager = LinearLayoutManager(this@MainActivity)
-            rvUser.setHasFixedSize(true)
-            rvUser.adapter = adapter
+        binding.rvUser.apply {
+            layoutManager = LinearLayoutManager(this@MainActivity)
+            setHasFixedSize(true)
+            adapter = this@MainActivity.adapter
         }
     }
 
