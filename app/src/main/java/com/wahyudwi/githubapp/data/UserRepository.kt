@@ -170,6 +170,8 @@ class UserRepository(application: Application) {
         return listUser
     }
 
+    fun getFavorite(): LiveData<List<FavoriteEntity>> = favoriteDao.getFavoritedUser()
+
     suspend fun checkUser(id: Int) = favoriteDao.checkUser(id)
 
     fun addFavorite(id: Int, username: String, avatarUrl: String) {
