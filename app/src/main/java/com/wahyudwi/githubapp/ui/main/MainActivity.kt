@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isGone
@@ -19,6 +20,7 @@ import com.wahyudwi.githubapp.utils.Adapter
 import com.wahyudwi.githubapp.utils.ViewModelFactory
 
 class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
+    private var closeButton: ImageView? = null
     private val listUser: ArrayList<SearchUser> = arrayListOf()
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
@@ -44,6 +46,14 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
         val searchView = menu.findItem(R.id.search_menu).actionView as SearchView
         searchView.setOnQueryTextListener(this)
+        searchView.setIconifiedByDefault(true)
+        closeButton = searchView.findViewById(androidx.appcompat.R.id.search_close_btn)
+        closeButton?.setOnClickListener {
+            searchView.onActionViewCollapsed()
+            listUser.clear()
+            adapter.setData(listUser)
+            isImageShow(true)
+        }
         searchView.maxWidth = Int.MAX_VALUE
         return super.onCreateOptionsMenu(menu)
     }
@@ -55,19 +65,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         return true
     }
 
-    override fun onQueryTextChange(query: String?): Boolean {
-        if (query != null) {
-            searchData(query)
-        }
-
-        if (query.isNullOrBlank()) {
-            listUser.clear()
-            adapter.setData(listUser)
-            isLoading(false)
-            isImageShow(true)
-        }
-        return false
-    }
+    override fun onQueryTextChange(query: String?): Boolean = false
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
