@@ -24,5 +24,5 @@ Belajar Fundamental Aplikasi Android(BFAA) Final Submission Dicoding
 * Room
 * Retrofit2
 
-#### Known issues i have
-* Icon close(x) when search must be click two times to go back normal toolbar
+#### new update
+* you must be enter to search user
