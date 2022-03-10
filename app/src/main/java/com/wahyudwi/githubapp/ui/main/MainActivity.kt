@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         val searchView = menu.findItem(R.id.search_menu).actionView as SearchView
         searchView.setOnQueryTextListener(this)
         searchView.setIconifiedByDefault(true)
+        searchView.isSubmitButtonEnabled = true
         closeButton = searchView.findViewById(androidx.appcompat.R.id.search_close_btn)
         closeButton?.setOnClickListener {
             searchView.onActionViewCollapsed()
