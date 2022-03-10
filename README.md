@@ -25,4 +25,4 @@ Belajar Fundamental Aplikasi Android(BFAA) Final Submission Dicoding
 * Retrofit2
 
 #### new update
-* you must be enter to search user
+* you must be use enter or klik submit button(>) to search user
