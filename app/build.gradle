@@ -44,8 +44,6 @@ dependencies {
 
     // kotlin
     implementation "androidx.core:core-ktx:$coreVersion"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
 
     // ui
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
@@ -64,23 +62,6 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3Version"
-
-    // testing
-    testImplementation "junit:junit:$junitVersion"
-    androidTestImplementation "androidx.test.ext:junit:$junitExtVersion"
-    androidTestImplementation "androidx.test:rules:$androidTestVersion"
-    androidTestImplementation "androidx.test:runner:$androidTestVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
-    implementation "androidx.test.espresso:espresso-idling-resource:$idleResourceVersion"
-
-    // room
-    implementation "androidx.room:room-runtime:$roomRuntimeVersion"
-    implementation "androidx.room:room-ktx:$roomVersion"
-    kapt "androidx.room:room-compiler:$roomVersion"
-
-    // datastore
-    implementation "androidx.datastore:datastore-preferences:$dataStoreVersion"
-
-
+    implementation 'androidx.test.ext:junit-ktx:1.1.5'
+    androidTestImplementation 'junit:junit:4.12'
 }

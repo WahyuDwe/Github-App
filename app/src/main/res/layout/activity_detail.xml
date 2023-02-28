@@ -165,14 +165,4 @@
             android:layout_height="match_parent" />
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_favorite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="24dp"
-        android:contentDescription="@string/button_to_add_favorite"
-        app:maxImageSize="26dp"
-        app:srcCompat="@drawable/ic_favorite" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

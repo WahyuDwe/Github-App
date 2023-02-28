@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -13,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.wahyudwi.githubapp.databinding.FragmentFollowersBinding
 import com.wahyudwi.githubapp.ui.detail.DetailActivity
 import com.wahyudwi.githubapp.utils.Adapter
-import com.wahyudwi.githubapp.utils.ViewModelFactory
 
 class FollowersFragment : Fragment() {
     private var _binding: FragmentFollowersBinding? = null
@@ -44,7 +42,7 @@ class FollowersFragment : Fragment() {
         }
 
         isLoading(true)
-        viewModel = obtainViewModel(context as AppCompatActivity)
+        viewModel = ViewModelProvider(this)[FollowersViewModel::class.java]
         viewModel.getListFollowers(username).observe(viewLifecycleOwner) { list ->
             if (list != null && list.isNotEmpty()) {
                 isLoading(false)
@@ -61,11 +59,6 @@ class FollowersFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun obtainViewModel(activity: AppCompatActivity): FollowersViewModel {
-        val factory = ViewModelFactory.getInstance(activity.application)
-        return ViewModelProvider(activity, factory)[FollowersViewModel::class.java]
     }
 
     private fun isLoading(state: Boolean) {

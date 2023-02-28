@@ -6,42 +6,19 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.ViewModelProvider
 import com.wahyudwi.githubapp.R
 import com.wahyudwi.githubapp.ui.main.MainActivity
-import com.wahyudwi.githubapp.ui.main.MainViewModel
-import com.wahyudwi.githubapp.utils.ViewModelFactory
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity() {
-    private lateinit var viewModel: SplashViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
 
-        viewModel = obtainViewModel(this as AppCompatActivity)
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }, 3000)
-
-        isDarkMode()
-    }
-
-    private fun obtainViewModel(activity: AppCompatActivity): SplashViewModel {
-        val factory = ViewModelFactory.getInstance(activity.application)
-        return ViewModelProvider(activity, factory)[SplashViewModel::class.java]
-    }
-
-    private fun isDarkMode() {
-        viewModel.getThemeSetting().observe(this) {
-            if (it) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
-        }
     }
 }

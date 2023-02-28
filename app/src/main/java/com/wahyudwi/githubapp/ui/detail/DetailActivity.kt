@@ -1,7 +1,6 @@
 package com.wahyudwi.githubapp.ui.detail
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
@@ -13,15 +12,9 @@ import com.wahyudwi.githubapp.data.model.DetailUserResponse
 import com.wahyudwi.githubapp.databinding.ActivityDetailBinding
 import com.wahyudwi.githubapp.ui.followers.FollowersFragment
 import com.wahyudwi.githubapp.ui.following.FollowingFragment
-import com.wahyudwi.githubapp.utils.ViewModelFactory
 import com.wahyudwi.githubapp.utils.ViewPagerAdapter
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class DetailActivity : AppCompatActivity() {
-    private var isChecked = false
     private var isShow = true
     private var scrollRange = -1
     private lateinit var binding: ActivityDetailBinding
@@ -37,41 +30,13 @@ class DetailActivity : AppCompatActivity() {
         binding.toolbar.setNavigationOnClickListener { onBackPressed() }
         setViewPager()
 
-        viewModel = obtainViewModel(this as AppCompatActivity)
+        viewModel = ViewModelProvider(this)[DetailViewModel::class.java]
 
-        val id = intent.getIntExtra(EXTRA_ID, 0)
-        val avatarUrl = intent.getStringExtra(EXTRA_AVATAR)
         username = intent.getStringExtra(EXTRA_USERNAME) as String
 
         viewModel.getDetailUser(username).observe(this) { detailMovie ->
             populateContentDetail(detailMovie)
             showTitleCollapse("$username Profile")
-        }
-        isDarkModeTabLayout()
-
-        CoroutineScope(Dispatchers.IO).launch {
-            val count = viewModel.checkExistUser(id)
-            withContext(Dispatchers.Main) {
-                isChecked = if (count > 0) {
-                    isFavorited(true)
-                    true
-                } else {
-                    isFavorited(false)
-                    false
-                }
-            }
-        }
-
-        binding.fabFavorite.setOnClickListener {
-            isChecked = !isChecked
-            if (isChecked) {
-                viewModel.addToFavorite(id, username, avatarUrl!!)
-                Toast.makeText(this, "Add To Favorite", Toast.LENGTH_SHORT).show()
-            } else {
-                viewModel.removeFromFavorite(id)
-                Toast.makeText(this, "Remove From Favorite", Toast.LENGTH_SHORT).show()
-            }
-            isFavorited(isChecked)
         }
 
     }
@@ -82,7 +47,11 @@ class DetailActivity : AppCompatActivity() {
         binding.apply {
             tvDetailName.text = detailMovie.name
             tvDetailUser.text = getString(R.string.username, detailMovie.login)
-            tvDetailCompany.text = getString(R.string.company, detailMovie.company)
+            tvDetailCompany.text = if (detailMovie.company == null) {
+                getString(R.string.company, "-")
+            } else {
+                getString(R.string.company, detailMovie.company)
+            }
             tvDetailLocation.text = getString(R.string.location, detailMovie.location)
             tvDetailRepository.text =
                 getString(R.string.repositories, detailMovie.publicRepos.toString())
@@ -95,11 +64,6 @@ class DetailActivity : AppCompatActivity() {
                 placeholder(R.drawable.ic_placeholder)
             }
         }
-    }
-
-    private fun obtainViewModel(activity: AppCompatActivity): DetailViewModel {
-        val factory = ViewModelFactory.getInstance(activity.application)
-        return ViewModelProvider(activity, factory)[DetailViewModel::class.java]
     }
 
     private fun setViewPager() {
@@ -124,8 +88,7 @@ class DetailActivity : AppCompatActivity() {
                 binding.collapsingToolbar.title = statusBar
                 binding.collapsingToolbar.setCollapsedTitleTextColor(
                     ContextCompat.getColor(
-                        this,
-                        R.color.white
+                        this, R.color.white
                     )
                 )
                 isShow = true
@@ -136,47 +99,6 @@ class DetailActivity : AppCompatActivity() {
         })
     }
 
-    private fun isFavorited(state: Boolean) {
-        val fab = binding.fabFavorite
-        if (state) {
-            fab.setImageResource(R.drawable.ic_favorited)
-        } else {
-            fab.setImageResource(R.drawable.ic_favorite)
-        }
-    }
-
-    private fun isDarkModeTabLayout() {
-        viewModel.getThemeSettings().observe(this) {
-            binding.apply {
-                if (it) {
-                    tabLayout.setSelectedTabIndicatorColor(
-                        ContextCompat.getColor(
-                            this@DetailActivity,
-                            R.color.teal_200
-                        )
-                    )
-
-                    tabLayout.setTabTextColors(
-                        ContextCompat.getColor(this@DetailActivity, R.color.unselected),
-                        ContextCompat.getColor(this@DetailActivity, R.color.teal_200)
-                    )
-
-                } else {
-                    tabLayout.setSelectedTabIndicatorColor(
-                        ContextCompat.getColor(
-                            this@DetailActivity,
-                            R.color.black_500
-                        )
-                    )
-
-                    tabLayout.setTabTextColors(
-                        ContextCompat.getColor(this@DetailActivity, R.color.unselected),
-                        ContextCompat.getColor(this@DetailActivity, R.color.black_500)
-                    )
-                }
-            }
-        }
-    }
 
     companion object {
         const val EXTRA_ID = "extra_id"

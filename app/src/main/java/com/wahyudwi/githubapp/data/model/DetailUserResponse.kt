@@ -13,7 +13,7 @@ data class DetailUserResponse(
 	val name: String,
 
 	@SerializedName("company")
-	val company: String,
+	val company: String?,
 
 	@SerializedName("public_repos")
 	val publicRepos: Int,

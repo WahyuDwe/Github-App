@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -13,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.wahyudwi.githubapp.databinding.FragmentFollowingBinding
 import com.wahyudwi.githubapp.ui.detail.DetailActivity
 import com.wahyudwi.githubapp.utils.Adapter
-import com.wahyudwi.githubapp.utils.ViewModelFactory
 
 class FollowingFragment : Fragment() {
     private var _binding: FragmentFollowingBinding? = null
@@ -26,7 +24,6 @@ class FollowingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         _binding = FragmentFollowingBinding.inflate(inflater, container, false)
         return binding?.root
     }
@@ -44,7 +41,7 @@ class FollowingFragment : Fragment() {
             setHasFixedSize(true)
             this.adapter = adapter
         }
-        viewModel = obtainViewModel(context as AppCompatActivity)
+        viewModel = ViewModelProvider(this)[FollowingViewModel::class.java]
         viewModel.getListFollowing(username).observe(viewLifecycleOwner) { list ->
             if (list != null && list.isNotEmpty()) {
                 isLoading(false)
@@ -61,11 +58,6 @@ class FollowingFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun obtainViewModel(activity: AppCompatActivity): FollowingViewModel {
-        val factory = ViewModelFactory.getInstance(activity.application)
-        return ViewModelProvider(activity, factory)[FollowingViewModel::class.java]
     }
 
     private fun isLoading(state: Boolean) {
