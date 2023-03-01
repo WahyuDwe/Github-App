@@ -1,22 +1,20 @@
 package com.wahyudwi.githubapp.ui.settings
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.ViewModelProvider
 import com.wahyudwi.githubapp.databinding.ActivitySettingBinding
-import com.wahyudwi.githubapp.utils.ViewModelFactory
 
 class SettingActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySettingBinding
-    private lateinit var viewModel: SettingsViewModel
+    private val viewModel: SettingsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySettingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = obtainViewModel(this as AppCompatActivity)
         title = "Settings"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         darkMode()
@@ -25,11 +23,6 @@ class SettingActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return super.onSupportNavigateUp()
-    }
-
-    private fun obtainViewModel(activity: AppCompatActivity): SettingsViewModel {
-        val factory = ViewModelFactory.getInstance(activity.application)
-        return ViewModelProvider(activity, factory)[SettingsViewModel::class.java]
     }
 
     private fun darkMode() {

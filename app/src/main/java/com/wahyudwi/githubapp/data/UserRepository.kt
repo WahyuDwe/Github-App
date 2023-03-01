@@ -81,12 +81,7 @@ class UserRepository(application: Application) {
                     detail.postValue(response.body())
                 }
 
-                val message = when (response.code()) {
-                    401 -> "${response.code()} : Forbidden"
-                    403 -> "${response.code()} : Bad Request"
-                    404 -> "${response.code()} : Not Found"
-                    else -> "${response.code()} : ${response.body()}"
-                }
+                val message = logResponse(response)
 
                 Log.d("onResponseDetail", message)
                 EspressoIdlingResource.decrement()
@@ -115,12 +110,7 @@ class UserRepository(application: Application) {
                     listUser.postValue(response.body())
                 }
 
-                val message = when (response.code()) {
-                    401 -> "${response.code()} : Forbidden"
-                    403 -> "${response.code()} : Bad Request"
-                    404 -> "${response.code()} : Not Found"
-                    else -> "${response.code()} : ${response.body()}"
-                }
+                val message = logResponse(response)
 
                 Log.d("onResponseFollowers", message)
                 EspressoIdlingResource.decrement()
@@ -149,12 +139,7 @@ class UserRepository(application: Application) {
                     listUser.postValue(response.body())
                 }
 
-                val message = when (response.code()) {
-                    401 -> "${response.code()} : Forbidden"
-                    403 -> "${response.code()} : Bad Request"
-                    404 -> "${response.code()} : Not Found"
-                    else -> "${response.code()} : ${response.body()}"
-                }
+                val message = logResponse(response)
 
                 Log.d("onResponseFollowing", message)
                 EspressoIdlingResource.decrement()
@@ -194,4 +179,11 @@ class UserRepository(application: Application) {
     suspend fun saveTheme(darkMode: Boolean) = pref.saveThemeSetting(darkMode)
 
     fun getTheme() = pref.getThemeSetting()
+
+    private fun logResponse(response: Response<*>) = when (response.code()) {
+        401 -> "${response.code()} : Forbidden"
+        403 -> "${response.code()} : Bad Request"
+        404 -> "${response.code()} : Not Found"
+        else -> "${response.code()} : ${response.body()}"
+    }
 }

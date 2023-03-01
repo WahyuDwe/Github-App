@@ -4,27 +4,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wahyudwi.githubapp.databinding.FragmentFollowersBinding
-import com.wahyudwi.githubapp.ui.detail.DetailActivity
 import com.wahyudwi.githubapp.utils.Adapter
-import com.wahyudwi.githubapp.utils.ViewModelFactory
 
 class FollowersFragment : Fragment() {
     private var _binding: FragmentFollowersBinding? = null
     private val binding get() = _binding
-    private lateinit var viewModel: FollowersViewModel
-    private lateinit var detailActivity: DetailActivity
+    private val viewModel: FollowersViewModel by viewModels()
     private lateinit var username: String
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentFollowersBinding.inflate(inflater, container, false)
         return binding?.root
@@ -33,8 +29,7 @@ class FollowersFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        detailActivity = activity as DetailActivity
-        username = detailActivity.getData()
+        username = arguments?.getString(USER_NAME) ?: ""
 
         val adapter = Adapter()
         binding?.rvUserFollowers?.apply {
@@ -44,7 +39,7 @@ class FollowersFragment : Fragment() {
         }
 
         isLoading(true)
-        viewModel = obtainViewModel(context as AppCompatActivity)
+
         viewModel.getListFollowers(username).observe(viewLifecycleOwner) { list ->
             if (list != null && list.isNotEmpty()) {
                 isLoading(false)
@@ -63,11 +58,6 @@ class FollowersFragment : Fragment() {
         _binding = null
     }
 
-    private fun obtainViewModel(activity: AppCompatActivity): FollowersViewModel {
-        val factory = ViewModelFactory.getInstance(activity.application)
-        return ViewModelProvider(activity, factory)[FollowersViewModel::class.java]
-    }
-
     private fun isLoading(state: Boolean) {
         binding?.apply {
             progressbar.isVisible = state
@@ -79,6 +69,16 @@ class FollowersFragment : Fragment() {
         binding?.apply {
             tvNoneFollowers.isVisible = state
             ivNoneFollowers.isVisible = state
+        }
+    }
+
+    companion object {
+        private const val USER_NAME = "user_name"
+
+        fun newInstance(username: String) = FollowersFragment().apply {
+            arguments = bundleOf(
+                USER_NAME to username
+            )
         }
     }
 }

@@ -5,25 +5,25 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.wahyudwi.githubapp.R
 import com.wahyudwi.githubapp.data.model.SearchUser
 import com.wahyudwi.githubapp.databinding.ActivityMainBinding
 import com.wahyudwi.githubapp.ui.favorite.FavoriteActivity
 import com.wahyudwi.githubapp.ui.settings.SettingActivity
 import com.wahyudwi.githubapp.utils.Adapter
-import com.wahyudwi.githubapp.utils.ViewModelFactory
 
 class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private var closeButton: ImageView? = null
     private val listUser: ArrayList<SearchUser> = arrayListOf()
     private lateinit var binding: ActivityMainBinding
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModels()
     private lateinit var adapter: Adapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = obtainViewModel(this as AppCompatActivity)
         adapter = Adapter()
         binding.rvUser.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
@@ -86,15 +85,15 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     }
 
-    private fun obtainViewModel(activity: AppCompatActivity): MainViewModel {
-        val factory = ViewModelFactory.getInstance(activity.application)
-        return ViewModelProvider(activity, factory)[MainViewModel::class.java]
-    }
-
     private fun searchData(query: String) {
         isLoading(true)
         isImageShow(false)
         viewModel.getSearchUser(query).observe(this) { list ->
+            if (list.isEmpty()) {
+                isLoading(false)
+                Snackbar.make(binding.root, getString(R.string.user_not_found), Snackbar.LENGTH_SHORT).show()
+            }
+
             list.let {
                 isLoading(false)
                 adapter.setData(it)

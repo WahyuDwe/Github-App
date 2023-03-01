@@ -1,11 +1,11 @@
 package com.wahyudwi.githubapp.ui.detail
 
 import android.app.Application
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.asLiveData
 import com.wahyudwi.githubapp.data.UserRepository
 
-class DetailViewModel(application: Application) : ViewModel() {
+class DetailViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = UserRepository(application)
 
     fun getDetailUser(username: String) = repository.detailUser(username)

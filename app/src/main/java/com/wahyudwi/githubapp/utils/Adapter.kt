@@ -32,14 +32,14 @@ class Adapter : RecyclerView.Adapter<Adapter.UserViewHolder>() {
         fun bind(user: SearchUser) {
             binding.apply {
                 tvItemUser.text = user.login
-                ivItemUser.load(user.avatar_url) {
+                ivItemUser.load(user.avatarUrl) {
                     placeholder(R.drawable.ic_placeholder)
                 }
                 itemView.setOnClickListener {
                     val intent = Intent(itemView.context, DetailActivity::class.java)
                     intent.putExtra(DetailActivity.EXTRA_ID, user.id)
                     intent.putExtra(DetailActivity.EXTRA_USERNAME, user.login)
-                    intent.putExtra(DetailActivity.EXTRA_AVATAR, user.avatar_url)
+                    intent.putExtra(DetailActivity.EXTRA_AVATAR, user.avatarUrl)
                     itemView.context.startActivity(intent)
                 }
             }

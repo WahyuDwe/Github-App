@@ -2,9 +2,9 @@ package com.wahyudwi.githubapp.ui.detail
 
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import coil.load
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -13,7 +13,6 @@ import com.wahyudwi.githubapp.data.model.DetailUserResponse
 import com.wahyudwi.githubapp.databinding.ActivityDetailBinding
 import com.wahyudwi.githubapp.ui.followers.FollowersFragment
 import com.wahyudwi.githubapp.ui.following.FollowingFragment
-import com.wahyudwi.githubapp.utils.ViewModelFactory
 import com.wahyudwi.githubapp.utils.ViewPagerAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +24,7 @@ class DetailActivity : AppCompatActivity() {
     private var isShow = true
     private var scrollRange = -1
     private lateinit var binding: ActivityDetailBinding
-    private lateinit var viewModel: DetailViewModel
+    private val viewModel: DetailViewModel by viewModels()
     private lateinit var username: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,17 +34,19 @@ class DetailActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
         binding.toolbar.setNavigationOnClickListener { onBackPressed() }
-        setViewPager()
-
-        viewModel = obtainViewModel(this as AppCompatActivity)
 
         val id = intent.getIntExtra(EXTRA_ID, 0)
         val avatarUrl = intent.getStringExtra(EXTRA_AVATAR)
         username = intent.getStringExtra(EXTRA_USERNAME) as String
+        setViewPager()
 
         viewModel.getDetailUser(username).observe(this) { detailMovie ->
-            populateContentDetail(detailMovie)
-            showTitleCollapse("$username Profile")
+            if (detailMovie == null) {
+                Toast.makeText(this, getString(R.string.failed_to_load), Toast.LENGTH_SHORT).show()
+            } else {
+                populateContentDetail(detailMovie)
+                showTitleCollapse("$username Profile")
+            }
         }
         isDarkModeTabLayout()
 
@@ -76,34 +77,27 @@ class DetailActivity : AppCompatActivity() {
 
     }
 
-    fun getData(): String = username
+    private fun populateContentDetail(detailMovie: DetailUserResponse) = with(binding) {
+        tvDetailName.text = detailMovie.name
+        tvDetailUser.text = getString(R.string.username, detailMovie.login)
+        tvDetailCompany.text = getString(R.string.company, detailMovie.company)
+        tvDetailLocation.text = getString(R.string.location, detailMovie.location)
+        tvDetailRepository.text =
+            getString(R.string.repositories, detailMovie.publicRepos.toString())
+        tvDetailFollowers.text = getString(R.string.followers_s, detailMovie.followers.toString())
+        tvDetailFollowing.text = getString(R.string.following_s, detailMovie.following.toString())
 
-    private fun populateContentDetail(detailMovie: DetailUserResponse) {
-        binding.apply {
-            tvDetailName.text = detailMovie.name
-            tvDetailUser.text = getString(R.string.username, detailMovie.login)
-            tvDetailCompany.text = getString(R.string.company, detailMovie.company)
-            tvDetailLocation.text = getString(R.string.location, detailMovie.location)
-            tvDetailRepository.text =
-                getString(R.string.repositories, detailMovie.publicRepos.toString())
-            tvDetailFollowers.text =
-                getString(R.string.followers_s, detailMovie.followers.toString())
-            tvDetailFollowing.text =
-                getString(R.string.following_s, detailMovie.following.toString())
-
-            ivDetailUser.load(detailMovie.avatarUrl) {
-                placeholder(R.drawable.ic_placeholder)
-            }
+        ivDetailUser.load(detailMovie.avatarUrl) {
+            placeholder(R.drawable.ic_placeholder)
         }
     }
 
-    private fun obtainViewModel(activity: AppCompatActivity): DetailViewModel {
-        val factory = ViewModelFactory.getInstance(activity.application)
-        return ViewModelProvider(activity, factory)[DetailViewModel::class.java]
-    }
-
     private fun setViewPager() {
-        val listFragment = listOf(FollowersFragment(), FollowingFragment())
+        val listFragment =
+            listOf(
+                FollowersFragment.newInstance(username = username),
+                FollowingFragment.instance(username = username),
+            )
         val titleTab = listOf(getString(R.string.followers), getString(R.string.following))
 
         binding.viewPager.adapter =
@@ -124,8 +118,7 @@ class DetailActivity : AppCompatActivity() {
                 binding.collapsingToolbar.title = statusBar
                 binding.collapsingToolbar.setCollapsedTitleTextColor(
                     ContextCompat.getColor(
-                        this,
-                        R.color.white
+                        this, R.color.white
                     )
                 )
                 isShow = true
@@ -151,8 +144,7 @@ class DetailActivity : AppCompatActivity() {
                 if (it) {
                     tabLayout.setSelectedTabIndicatorColor(
                         ContextCompat.getColor(
-                            this@DetailActivity,
-                            R.color.teal_200
+                            this@DetailActivity, R.color.teal_200
                         )
                     )
 
@@ -164,8 +156,7 @@ class DetailActivity : AppCompatActivity() {
                 } else {
                     tabLayout.setSelectedTabIndicatorColor(
                         ContextCompat.getColor(
-                            this@DetailActivity,
-                            R.color.black_500
+                            this@DetailActivity, R.color.black_500
                         )
                     )
 

@@ -32,6 +32,7 @@ ext {
     androidTestVersion = '1.4.0'
     idleResourceVersion = '3.4.0'
     coroutineVersion = '1.5.2'
+    mockitoVersion = '3.6.0'
 }
 
 task clean(type: Delete) {

@@ -1,14 +1,10 @@
 package com.wahyudwi.githubapp.ui.favorite
 
 import android.app.Application
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
 import com.wahyudwi.githubapp.data.UserRepository
-import com.wahyudwi.githubapp.data.local.entity.FavoriteEntity
-import com.wahyudwi.githubapp.data.local.room.FavoriteDao
-import com.wahyudwi.githubapp.data.local.room.FavoriteDatabase
 
-class FavoriteViewModel(application: Application) : ViewModel() {
+class FavoriteViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = UserRepository(application)
 
     fun getFavoritedUser() = repository.getFavorite()
